@@ -82,7 +82,7 @@ export default function App() {
       <div className="brand"><img src="/agua-rural-logo.png" alt="Água Rural" /><span className="brand-tagline">Controle e gestão da água no campo</span><button onClick={() => setMenu(false)} aria-label="Fechar menu"><X /></button></div>
       <nav>{nav.map(([id, label, Icon]) => <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}><Icon />{label}</button>)}</nav>
       <div className="support"><ShieldCheck /><div><strong>Sessão protegida</strong><span>Usuário autenticado</span></div></div>
-      <div className="profile"><div>{initials}</div><span><strong>{userName}</strong><small>{userRole} · FORTE GRÃOS</small></span><button className="logout" onClick={logout} aria-label="Sair do aplicativo" title="Sair"><LogOut /></button></div>
+      <div className="profile"><div>{initials}</div><span><strong>{userName}</strong><small>{userRole} · FORTE GRÃOS</small></span><button className="logout" onClick={logout} aria-label="Sair do aplicativo" title="Sair"><LogOut /><span>Sair</span></button></div>
     </aside>
     <main>
       <header className="topbar"><button className="menu" aria-label="Abrir menu" onClick={() => setMenu(true)}><Menu /></button><div><span>Gestão hídrica</span><h1>{nav.find((n) => n[0] === page)?.[1]}</h1></div><div className="header-date"><Clock3 /><span><small>Hoje</small><strong>{new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })}</strong></span></div></header>
