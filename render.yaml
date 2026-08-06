@@ -3,7 +3,7 @@ services:
     name: agua-rural
     runtime: static
     buildCommand: npm ci && npm run build
-    staticPublishPath: ./out
+    staticPublishPath: out
     envVars:
       - key: NODE_VERSION
         value: 20.19.0
