@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: agua-rural
+    name: agua-rural-forte-graos
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: out
