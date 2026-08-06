@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: agua-rural
+    runtime: node
+    plan: starter
+    region: ohio
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: AGUA_DATABASE_URL
+        fromDatabase:
+          name: agua-rural-db
+          property: connectionString
+      - key: APP_SECRET
+        generateValue: true
+      - key: FILE_STORAGE_PATH
+        value: /var/data/agua-rural/uploads
+      - key: NEXT_PUBLIC_ORGANIZATION_NAME
+        value: FORTE GRÃOS
+      - key: NEXT_PUBLIC_FIRST_ADMIN_EMAIL
+        value: jedielson.figueiredo@hotmail.com
+    disk:
+      name: agua-rural-files
+      mountPath: /var/data/agua-rural
+      sizeGB: 5
+
+databases:
+  - name: agua-rural-db
+    databaseName: agua_rural
+    user: agua_rural
+    region: ohio
+    ipAllowList: []
