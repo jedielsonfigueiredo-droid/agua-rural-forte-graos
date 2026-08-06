@@ -40,6 +40,7 @@ const nav = [
 
 export default function App() {
   const [session, setSession] = useState(undefined);
+  const [passwordRecovery, setPasswordRecovery] = useState(() => typeof window !== "undefined" && window.location.hash.includes("type=recovery"));
   const [data, setData] = useState(initialData);
   const [page, setPage] = useState("inicio");
   const [modal, setModal] = useState(null);
@@ -48,13 +49,14 @@ export default function App() {
   useEffect(() => {
     if (!supabaseConfigured) { setSession(null); return; }
     supabase.auth.getSession().then(({ data: authData }) => setSession(authData.session));
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
+    const { data: listener } = supabase.auth.onAuthStateChange((event, nextSession) => { setSession(nextSession); if (event === "PASSWORD_RECOVERY") setPasswordRecovery(true); });
     return () => listener.subscription.unsubscribe();
   }, []);
   useEffect(() => { try { const saved = JSON.parse(localStorage.getItem("agua-rural-v6")); if (saved?.grants) setData(saved); } catch {} }, []);
   useEffect(() => { try { localStorage.setItem("agua-rural-v6", JSON.stringify(data)); } catch { setToast("O armazenamento de fotos está cheio. Tente uma imagem menor."); } }, [data]);
   const go = (id) => { setPage(id); setMenu(false); };
   if (session === undefined) return <div className="auth-loading"><img src="/agua-rural-logo.png" alt="Água Rural" /><span>Preparando acesso seguro...</span></div>;
+  if (passwordRecovery && session) return <UpdatePasswordScreen onComplete={() => setPasswordRecovery(false)} />;
   if (!session) return <LoginScreen />;
   const userName = session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "Usuário";
   const userRole = session.user.user_metadata?.role === "operator" ? "Operador" : "Administrador";
@@ -108,6 +110,24 @@ function LoginScreen() {
     setLoading(false);
   };
   return <main className="auth-page"><section className="auth-panel"><div className="auth-brand"><img src="/agua-rural-logo.png" alt="Água Rural" /><span>Controle e gestão da água no campo</span></div><div className="auth-copy"><span className="eyebrow">ACESSO RESTRITO</span><h1>Entre no Água Rural</h1><p>Use as credenciais autorizadas pela Forte Grãos.</p></div><form onSubmit={login}><label>E-mail<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required placeholder="seu@email.com" /></label><label>Senha<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required placeholder="Sua senha" /></label>{error && <div className="auth-error"><AlertTriangle />{error}</div>}{message && <div className="auth-message"><CheckCircle2 />{message}</div>}<button className="primary auth-submit" type="submit" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</button><button className="auth-reset" type="button" onClick={resetPassword} disabled={loading}>Esqueci minha senha</button></form><footer><ShieldCheck /><span>Conexão protegida e acesso individual</span></footer></section><aside className="auth-visual"><Droplets /><h2>Gestão hídrica com histórico confiável.</h2><p>Leituras, evidências e indicadores reunidos em um ambiente seguro.</p></aside></main>;
+}
+
+function UpdatePasswordScreen({ onComplete }) {
+  const [password, setPassword] = useState("");
+  const [confirmation, setConfirmation] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const updatePassword = async (event) => {
+    event.preventDefault(); setError("");
+    if (password.length < 8) return setError("A nova senha deve ter pelo menos 8 caracteres.");
+    if (password !== confirmation) return setError("As senhas informadas não são iguais.");
+    setLoading(true);
+    const { error: updateError } = await supabase.auth.updateUser({ password });
+    setLoading(false);
+    if (updateError) return setError("Não foi possível atualizar a senha. Solicite um novo link de recuperação.");
+    onComplete();
+  };
+  return <main className="auth-page"><section className="auth-panel"><div className="auth-brand"><img src="/agua-rural-logo.png" alt="Água Rural" /><span>Controle e gestão da água no campo</span></div><div className="auth-copy"><span className="eyebrow">NOVA SENHA</span><h1>Atualize sua senha</h1><p>Crie uma senha segura para acessar o Água Rural.</p></div><form onSubmit={updatePassword}><label>Nova senha<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" minLength="8" required placeholder="Mínimo de 8 caracteres" /></label><label>Confirmar nova senha<input type="password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} autoComplete="new-password" minLength="8" required placeholder="Repita a nova senha" /></label>{error && <div className="auth-error"><AlertTriangle />{error}</div>}<button className="primary auth-submit" type="submit" disabled={loading}>{loading ? "Atualizando..." : "Salvar nova senha"}</button></form><footer><ShieldCheck /><span>Após salvar, você entrará automaticamente no aplicativo</span></footer></section><aside className="auth-visual"><ShieldCheck /><h2>Seu acesso, agora protegido por uma nova senha.</h2><p>A senha é atualizada diretamente no ambiente seguro de autenticação.</p></aside></main>;
 }
 
 function Dashboard({ data, onReading, onPage }) {
