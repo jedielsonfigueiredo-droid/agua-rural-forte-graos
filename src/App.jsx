@@ -31,22 +31,7 @@ const initialData = {
     { id: "o10", name: "Fazenda Serrinha", number: "OUT-2025/0146", propertyId: "p4", point: "Talhão Serrinha", source: "Poço tubular", flow: 41, area: 44, volume: 118000, status: "ativa", waterInitial: 13220, hourInitial: 3090, validity: "2029-05-17" },
     { id: "o11", name: "Fazenda Geraldo Dias Leite", number: "OUT-2023/0828", propertyId: "p5", point: "Setor Leite", source: "Água superficial", flow: 49, area: 52, volume: 138000, status: "ativa", waterInitial: 21460, hourInitial: 4870, validity: "2027-10-08" },
   ],
-  readings: [
-    { id: "r6", grantId: "o4", date: shiftDate(today(), -1), waterPrev: 20128, waterNow: 20274, consumption: 146, hourPrev: 4598.2, hourNow: 4603.1, hours: 4.9, culture: "Soja", user: "Carlos Mendes", status: "concluida", note: "Operação normal." },
-    { id: "r7", grantId: "o5", date: shiftDate(today(), -1), waterPrev: 24830, waterNow: 24992, consumption: 162, hourPrev: 5591.4, hourNow: 5597.2, hours: 5.8, culture: "Milho", user: "Ana Paula", status: "concluida", note: "" },
-    { id: "r8", grantId: "o6", date: shiftDate(today(), -1), waterPrev: 16204, waterNow: 16336, consumption: 132, hourPrev: 3710.8, hourNow: 3715.4, hours: 4.6, culture: "Feijão", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r9", grantId: "o7", date: shiftDate(today(), -1), waterPrev: 33880, waterNow: 34074, consumption: 194, hourPrev: 7420.5, hourNow: 7427.2, hours: 6.7, culture: "Algodão", user: "Ana Paula", status: "concluida", note: "" },
-    { id: "r10", grantId: "o8", date: shiftDate(today(), -1), waterPrev: 10442, waterNow: 10538, consumption: 96, hourPrev: 2415.3, hourNow: 2418.6, hours: 3.3, culture: "Pastagem", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r11", grantId: "o4", date: today(), waterPrev: 20274, waterNow: 20422, consumption: 148, hourPrev: 4603.1, hourNow: 4608.1, hours: 5, culture: "Soja", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r12", grantId: "o5", date: today(), waterPrev: 24992, waterNow: 25150, consumption: 158, hourPrev: 5597.2, hourNow: 5602.8, hours: 5.6, culture: "Milho", user: "Ana Paula", status: "concluida", note: "" },
-    { id: "r13", grantId: "o6", date: today(), waterPrev: 16336, waterNow: 16472, consumption: 136, hourPrev: 3715.4, hourNow: 3720.1, hours: 4.7, culture: "Feijão", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r14", grantId: "o7", date: today(), waterPrev: 34074, waterNow: 34262, consumption: 188, hourPrev: 7427.2, hourNow: 7433.7, hours: 6.5, culture: "Algodão", user: "Ana Paula", status: "concluida", note: "" },
-    { id: "r15", grantId: "o9", date: shiftDate(today(), -1), waterPrev: 19418, waterNow: 19570, consumption: 152, hourPrev: 4386.2, hourNow: 4391.5, hours: 5.3, culture: "Soja", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r16", grantId: "o10", date: shiftDate(today(), -1), waterPrev: 14562, waterNow: 14680, consumption: 118, hourPrev: 3372.7, hourNow: 3376.8, hours: 4.1, culture: "Milho", user: "Ana Paula", status: "concluida", note: "" },
-    { id: "r17", grantId: "o11", date: shiftDate(today(), -1), waterPrev: 23290, waterNow: 23430, consumption: 140, hourPrev: 5238.4, hourNow: 5243.3, hours: 4.9, culture: "Pastagem", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r18", grantId: "o9", date: today(), waterPrev: 19570, waterNow: 19720, consumption: 150, hourPrev: 4391.5, hourNow: 4396.7, hours: 5.2, culture: "Soja", user: "Carlos Mendes", status: "concluida", note: "" },
-    { id: "r19", grantId: "o10", date: today(), waterPrev: 14680, waterNow: 14800, consumption: 120, hourPrev: 3376.8, hourNow: 3381, hours: 4.2, culture: "Milho", user: "Ana Paula", status: "concluida", note: "" },
-  ],
+  readings: [],
 };
 
 const nav = [
@@ -66,8 +51,8 @@ export default function App() {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
     return () => listener.subscription.unsubscribe();
   }, []);
-  useEffect(() => { try { const saved = JSON.parse(localStorage.getItem("agua-rural-v5")); if (saved?.grants) setData(saved); } catch {} }, []);
-  useEffect(() => { try { localStorage.setItem("agua-rural-v5", JSON.stringify(data)); } catch { setToast("O armazenamento de fotos está cheio. Tente uma imagem menor."); } }, [data]);
+  useEffect(() => { try { const saved = JSON.parse(localStorage.getItem("agua-rural-v6")); if (saved?.grants) setData(saved); } catch {} }, []);
+  useEffect(() => { try { localStorage.setItem("agua-rural-v6", JSON.stringify(data)); } catch { setToast("O armazenamento de fotos está cheio. Tente uma imagem menor."); } }, [data]);
   const go = (id) => { setPage(id); setMenu(false); };
   if (session === undefined) return <div className="auth-loading"><img src="/agua-rural-logo.png" alt="Água Rural" /><span>Preparando acesso seguro...</span></div>;
   if (!session) return <LoginScreen />;
