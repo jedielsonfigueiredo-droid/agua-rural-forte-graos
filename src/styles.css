@@ -212,6 +212,58 @@ button:disabled{cursor:not-allowed;transform:none!important;box-shadow:none!impo
 .scan-spinner{width:20px;height:20px;border-radius:50%;border:3px solid #c9dddd;border-top-color:#147d92;animation:scan-spin .8s linear infinite;flex:0 0 auto}
 @keyframes scan-spin{to{transform:rotate(360deg)}}
 
+/* Relatórios: leitura confortável em campo e no escritório */
+.report-page{gap:28px}
+.report-page .page-head h2{font-size:34px}
+.report-page .page-head p{font-size:15px;line-height:1.55;color:#405860}
+.report-page .eyebrow{font-size:11px}
+.report-records .panel-title{min-height:82px}
+.report-records .panel-title h3{font-size:18px}
+.report-records .panel-title p{font-size:12px}
+.report-records th{font-size:11px;color:#435c66;padding:15px 17px}
+.report-records td{font-size:13px;line-height:1.45;padding:17px}
+.report-records td>span{font-size:11px;line-height:1.4}
+.annex-record header strong{font-size:13px}
+.annex-record header span,.annex-record header small{font-size:10px}
+.annex-photos figcaption strong{font-size:13px}
+.annex-photos figcaption span{font-size:11px;line-height:1.4}
+
+@media(max-width:720px){
+  .report-page{gap:18px}
+  .report-page .page-head h2{font-size:30px;line-height:1.15}
+  .report-page .page-head p{font-size:15px;max-width:none;margin-top:7px}
+  .report-page .eyebrow{font-size:11px}
+  .report-page .filters{gap:14px}
+  .evidence-header{border-width:2px}
+  .evidence-brand{display:grid;grid-template-columns:78px 1fr;min-height:112px}
+  .evidence-brand img{width:78px;height:60px}
+  .evidence-brand span{font-size:10px}.evidence-brand strong{font-size:16px;line-height:1.3}.evidence-brand small{font-size:12px;margin-top:5px}
+  .evidence-data>div{min-height:auto;padding:17px 16px;border-bottom:2px solid #e2e9e7}
+  .evidence-data span{font-size:12px;font-weight:700;color:#52666e}
+  .evidence-data strong{font-size:17px;line-height:1.3;margin:7px 0}
+  .evidence-data small{font-size:13px;line-height:1.45;color:#586f66}
+  .report-page .metric{grid-template-columns:48px 1fr;padding:18px}.report-page .metric-icon{width:48px;height:48px}.report-page .metric-icon svg{width:24px}
+  .report-page .metric>span{font-size:14px}.report-page .metric>strong{font-size:27px}.report-page .metric>small{font-size:13px;line-height:1.4}
+  .mini-chart{padding:17px;border-width:2px}.mini-chart header h3{font-size:17px}.mini-chart header span{font-size:12px}.mini-chart header strong{font-size:19px}.mini-chart svg{height:125px}.mini-chart footer{font-size:12px}
+  .report-records{overflow:visible;border:0;background:transparent;box-shadow:none}
+  .report-records .panel-title{position:static;min-height:auto;padding:16px;border:2px solid #cbd7d9;border-radius:12px;background:#fff;margin-bottom:12px}
+  .report-records .panel-title h3{font-size:20px}.report-records .panel-title p{font-size:13px;line-height:1.4}
+  .report-records table,.report-records tbody{display:block;min-width:0;width:100%}
+  .report-records thead{display:none}
+  .report-records tr{display:block;background:#fff;border:2px solid #bfcfd1;border-radius:13px;margin-bottom:13px;overflow:hidden}
+  .report-records td{display:grid;grid-template-columns:128px 1fr;align-items:center;gap:12px;min-width:0!important;padding:13px 15px;border-top:1px solid #dce5e6;font-size:15px;text-align:right}
+  .report-records td:first-child{border-top:0;background:#edf5f1;text-align:left;padding:16px 15px}
+  .report-records td::before{font-size:11px;font-weight:800;color:#526970;text-align:left;text-transform:uppercase;letter-spacing:.35px}
+  .report-records td:nth-child(1)::before{content:"Data e outorga"}.report-records td:nth-child(2)::before{content:"Hidrômetro"}.report-records td:nth-child(3)::before{content:"Consumo"}.report-records td:nth-child(4)::before{content:"Horímetro"}.report-records td:nth-child(5)::before{content:"Horas"}.report-records td:nth-child(6)::before{content:"Vazão média"}.report-records td:nth-child(7)::before{content:"Cultura"}.report-records td:nth-child(8)::before{content:"Responsável"}.report-records td:nth-child(9)::before{content:"Situação"}
+  .report-records td>strong,.report-records td>b,.report-records td>.status{justify-self:end}
+  .report-records td:first-child>strong,.report-records td:first-child>span{grid-column:2}
+  .report-records td>span{font-size:12px}.report-records .status{font-size:11px;padding:7px 10px}
+  .annex-title{min-height:92px;padding:17px}.annex-title h3{font-size:18px;line-height:1.3}.annex-title p,.annex-title span{font-size:12px}
+  .annex-grid{padding:12px}.annex-record{border-width:2px}.annex-record>header{padding:13px;min-height:64px}.annex-record header strong{font-size:15px}.annex-record header span,.annex-record header small{font-size:12px}
+  .annex-photos figure{padding:10px}.annex-photos figcaption{padding:12px 4px 5px}.annex-photos figcaption strong{font-size:15px}.annex-photos figcaption span{font-size:13px}
+  .evidence-declaration{grid-template-columns:32px 1fr;padding:17px;border-width:2px}.evidence-declaration strong{font-size:15px}.evidence-declaration p{font-size:13px;line-height:1.55}.evidence-declaration>span{font-size:12px;line-height:1.45}
+}
+
 /* Rolagem principal da aplicação */
 html{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:scroll!important;scrollbar-gutter:stable}
 body{height:auto!important;min-height:100vh;overflow:visible!important}
