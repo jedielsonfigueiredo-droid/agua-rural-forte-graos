@@ -210,7 +210,13 @@ function PhotoProof({label,src,onOpen}){return src&&typeof src==="string"?<butto
 
 function Grants({ data, onNew, onReading }) { return <div className="stack"><section className="page-head"><div><span className="eyebrow">CADASTROS</span><h2>Outorgas</h2><p>Equipamentos, limites e documentos em um só lugar.</p></div><button className="primary" onClick={onNew}><Plus /> Nova outorga</button></section><div className="cards-grid">{data.grants.map((g) => { const p=data.properties.find((x)=>x.id===g.propertyId), r=lastReading(data,g.id), doneToday=data.readings.some(x=>x.grantId===g.id&&x.date===today()); return <article className="grant-card" key={g.id}><header><div className="equip"><Droplets/></div><Status value={g.status}/></header><h3>{g.name}</h3><p>{p?.name}</p><dl><div><dt>Número</dt><dd>{g.number}</dd></div><div><dt>Fonte</dt><dd>{g.source}</dd></div><div><dt>Vazão autorizada</dt><dd>{g.flow} m³/h</dd></div><div><dt>Validade</dt><dd>{brDate(g.validity)}</dd></div></dl><div className="card-last"><span>Última leitura</span><strong>{r ? `${fmt(r.waterNow,0)} m³ · ${brDate(r.date)}` : "Sem leituras"}</strong></div><button className="outline full" disabled={doneToday} onClick={() => !doneToday&&onReading(g.id)}>{doneToday?<><CheckCircle2/> Leitura realizada hoje</>:"Registrar leitura"}</button></article>})}</div></div>; }
 
-function Reports({ data, userName }) {
+function Reports(props) {
+  const [step,setStep]=useState(0);
+  const stages=[["Painel",BarChart3],["Leituras",Gauge],["Comprovantes",Camera]];
+  return <div className={`mobile-report-step step-${step}`}><nav className="report-steps" aria-label="Etapas do relatório">{stages.map(([label,Icon],index)=><button key={label} className={step===index?"active":""} onClick={()=>setStep(index)}><span>{index+1}</span><Icon/><strong>{label}</strong></button>)}</nav><ReportDocument {...props}/><div className="report-step-actions"><button className="outline" disabled={step===0} onClick={()=>setStep(value=>Math.max(0,value-1))}>Voltar</button><button className="primary" disabled={step===2} onClick={()=>setStep(value=>Math.min(2,value+1))}>{step===1?"Ver comprovantes":"Continuar"}<ChevronRight/></button></div></div>;
+}
+
+function ReportDocument({ data, userName }) {
   const defaultFrom = new Date(Date.now() - 29 * 86400000).toISOString().slice(0, 10);
   const [grant, setGrant] = useState("todos"), [from, setFrom] = useState(defaultFrom), [to, setTo] = useState(today());
   const rows=data.readings.filter((r)=>(grant==="todos"||r.grantId===grant)&&(!from||r.date>=from)&&(!to||r.date<=to)).sort((a,b)=>b.date.localeCompare(a.date));

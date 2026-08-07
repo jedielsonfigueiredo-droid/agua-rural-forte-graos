@@ -197,6 +197,33 @@ button:disabled{cursor:not-allowed;transform:none!important;box-shadow:none!impo
   .evidence-declaration strong{font-size:13px}.evidence-declaration p{font-size:11px}.evidence-declaration>span{font-size:10px}
 }
 
+.report-steps,.report-step-actions{display:none}
+
+@media(max-width:720px){
+  .mobile-report-step{display:grid;gap:16px}
+  .report-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:8px;background:#e8f0ef;border:2px solid #c4d3d2;border-radius:14px;position:sticky;top:8px;z-index:12;box-shadow:0 8px 22px rgba(13,55,65,.1)}
+  .report-steps button{min-width:0;height:72px;border:2px solid transparent;border-radius:10px;background:transparent;color:#526970;display:grid;grid-template-columns:22px 1fr;grid-template-rows:1fr 1fr;align-items:center;padding:8px;gap:0 5px;text-align:left}
+  .report-steps button>span{grid-row:1/-1;width:22px;height:22px;border-radius:50%;background:#cddbd9;color:#38545a;display:grid;place-items:center;font-size:11px;font-weight:800}
+  .report-steps button svg{width:19px;height:19px}.report-steps button strong{font-size:11px;white-space:nowrap}
+  .report-steps button.active{background:#fff;border-color:#1c7e77;color:#0d5e5a;box-shadow:0 4px 12px rgba(20,85,80,.12)}
+  .report-steps button.active>span{background:#238577;color:#fff}
+  .mobile-report-step .report-page{display:grid}
+  .mobile-report-step .report-page>:not(.page-head){display:none}
+  .mobile-report-step.step-0 .report-page>:nth-child(2),.mobile-report-step.step-0 .report-page>:nth-child(3),.mobile-report-step.step-0 .report-page>:nth-child(4),.mobile-report-step.step-0 .report-page>:nth-child(5){display:grid}
+  .mobile-report-step.step-0 .report-page>:nth-child(2){display:grid}
+  .mobile-report-step.step-1 .report-page>:nth-child(6){display:block}
+  .mobile-report-step.step-2 .report-page>:nth-child(7),.mobile-report-step.step-2 .report-page>:nth-child(8){display:grid}
+  .mobile-report-step .report-page>.page-head .actions{display:none}
+  .mobile-report-step .report-page>.page-head{padding:4px 2px 0}
+  .mobile-report-step.step-1 .report-page>.page-head h2{font-size:26px}.mobile-report-step.step-1 .report-page>.page-head h2::after{content:" — Leituras"}
+  .mobile-report-step.step-2 .report-page>.page-head h2{font-size:26px}.mobile-report-step.step-2 .report-page>.page-head h2::after{content:" — Fotos"}
+  .report-step-actions{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;position:sticky;bottom:82px;z-index:11;padding:10px;background:rgba(255,255,255,.96);border:2px solid #c7d5d5;border-radius:13px;box-shadow:0 8px 25px rgba(9,45,57,.14)}
+  .report-step-actions button{height:52px;font-size:14px;border-width:2px}
+  .report-step-actions button:disabled{visibility:hidden}
+  .mobile-report-step.step-2 .report-step-actions{grid-template-columns:1fr}.mobile-report-step.step-2 .report-step-actions .primary{display:none}
+  .mobile-report-step.step-0 .report-step-actions{grid-template-columns:1fr}.mobile-report-step.step-0 .report-step-actions .outline{display:none}
+}
+
 @media(max-width:390px){
   .history-filters{grid-template-columns:1fr}.history-filters .search-field,.history-filters label:nth-child(2){grid-column:auto}
   .grant-card dl{grid-template-columns:1fr}
