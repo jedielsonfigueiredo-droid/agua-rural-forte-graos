@@ -622,3 +622,9 @@ html::-webkit-scrollbar-thumb:hover{background:#6f9289}
   .mobile-report-step .annex-record header{gap:8px}.mobile-report-step .annex-record header small{max-width:90px;overflow-wrap:anywhere;text-align:right}
   .report-step-actions{width:100%;bottom:78px;padding:7px}.report-step-actions button{height:46px}
 }
+
+@media(max-width:720px){
+  .mobile-report-step .report-step-actions{position:static;bottom:auto;z-index:auto;margin-top:2px;padding:0;border:0;background:transparent;box-shadow:none}
+  .mobile-report-step .report-step-actions button{height:52px;border-radius:11px}
+  .mobile-report-step .report-page>.metrics .metric:last-child{margin-bottom:0}
+}
