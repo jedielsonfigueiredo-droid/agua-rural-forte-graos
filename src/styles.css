@@ -592,3 +592,33 @@ html::-webkit-scrollbar-thumb:hover{background:#6f9289}
   .wizard-actions .ghost{flex-basis:92px}
   .wizard-actions .primary{font-size:13px}
 }
+
+/* Refinamento final do relatório móvel: compacto e sem rolagem lateral */
+@media(max-width:720px){
+  html,body,.app-shell,main,.content,.mobile-report-step,.report-page{max-width:100%;overflow-x:hidden}
+  .mobile-report-step,.mobile-report-step *{min-width:0}
+  .mobile-report-step .report-page{width:100%;gap:14px}
+  .mobile-report-step.step-0 .report-page>:nth-child(3),.mobile-report-step.step-0 .report-page>:nth-child(5){display:none!important}
+  .mobile-report-step.step-0 .report-page>:nth-child(2),.mobile-report-step.step-0 .report-page>:nth-child(4){display:grid!important}
+  .mobile-report-step .report-page>.page-head{margin:0}
+  .mobile-report-step .report-page>.page-head .eyebrow{font-size:9px}
+  .mobile-report-step .report-page>.page-head h2{font-size:24px;line-height:1.1;margin:4px 0}
+  .mobile-report-step .report-page>.page-head p{font-size:13px;line-height:1.35;margin:0}
+  .report-steps{width:100%;gap:4px;padding:5px}
+  .report-steps button{height:58px;grid-template-columns:18px 1fr;padding:5px;gap:3px}
+  .report-steps button>span{width:18px;height:18px;font-size:9px}
+  .report-steps button svg{width:16px;height:16px}.report-steps button strong{font-size:10px;white-space:normal;line-height:1.1}
+  .mobile-report-step .filters{width:100%;padding:12px;gap:10px}
+  .mobile-report-step .filters label{width:100%;font-size:11px}
+  .mobile-report-step .filters select,.mobile-report-step .filters input{width:100%;height:46px;font-size:14px}
+  .mobile-report-step .report-page>.metrics{width:100%;gap:8px}
+  .mobile-report-step .report-page>.metrics .metric{width:100%;min-height:82px;padding:13px;grid-template-columns:40px 1fr;column-gap:10px}
+  .mobile-report-step .report-page>.metrics .metric-icon{width:40px;height:40px}
+  .mobile-report-step .report-page>.metrics .metric>span{font-size:12px}.mobile-report-step .report-page>.metrics .metric>strong{font-size:22px}.mobile-report-step .report-page>.metrics .metric>small{font-size:11px;margin-top:2px}
+  .mobile-report-step .report-records,.mobile-report-step .report-records table,.mobile-report-step .report-records tbody{width:100%!important;max-width:100%!important;min-width:0!important;overflow:visible!important}
+  .mobile-report-step .report-records tr{width:100%;max-width:100%}
+  .mobile-report-step .report-records td{width:100%;max-width:100%;grid-template-columns:minmax(92px,38%) minmax(0,62%);overflow-wrap:anywhere}
+  .mobile-report-step .photo-annex,.mobile-report-step .annex-grid,.mobile-report-step .annex-record,.mobile-report-step .annex-photos,.mobile-report-step .annex-photos figure,.mobile-report-step .evidence-declaration{width:100%;max-width:100%}
+  .mobile-report-step .annex-record header{gap:8px}.mobile-report-step .annex-record header small{max-width:90px;overflow-wrap:anywhere;text-align:right}
+  .report-step-actions{width:100%;bottom:78px;padding:7px}.report-step-actions button{height:46px}
+}
