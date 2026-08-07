@@ -202,6 +202,16 @@ button:disabled{cursor:not-allowed;transform:none!important;box-shadow:none!impo
   .grant-card dl{grid-template-columns:1fr}
 }
 
+.scan-status{margin-top:12px;border-radius:9px;padding:12px 14px;display:flex;align-items:center;gap:11px;border:1px solid #d9e7e5;background:#f5faf9;color:#235f58}
+.scan-status svg{width:21px;height:21px;flex:0 0 auto}
+.scan-status strong,.scan-status small{display:block}
+.scan-status strong{font-size:11px}
+.scan-status small{font-size:9px;margin-top:3px;color:#657b78}
+.scan-status.success{background:#eaf6ee;border-color:#b9dfc6;color:#226d3d}
+.scan-status.failed{background:#fff5e7;border-color:#efd4a7;color:#945f14}
+.scan-spinner{width:20px;height:20px;border-radius:50%;border:3px solid #c9dddd;border-top-color:#147d92;animation:scan-spin .8s linear infinite;flex:0 0 auto}
+@keyframes scan-spin{to{transform:rotate(360deg)}}
+
 /* Rolagem principal da aplicação */
 html{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:scroll!important;scrollbar-gutter:stable}
 body{height:auto!important;min-height:100vh;overflow:visible!important}
