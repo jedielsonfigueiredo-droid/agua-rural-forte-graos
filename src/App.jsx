@@ -243,7 +243,7 @@ function OperatorReadingModal({data,initialId,userName,onClose,onSave}) {
   const grant=data.grants.find((item)=>item.id===grantId),property=data.properties.find((item)=>item.id===grant?.propertyId),last=lastReading(data,grantId),prevW=last?.waterNow||grant?.waterInitial||0,prevH=last?.hourNow||grant?.hourInitial||0;
   const consumption=water===""?0:Number(water)-prevW,operating=hours===""?0:Number(hours)-prevH,averageFlow=operating>0?consumption/operating:0,blade=grant?.area?consumption/(Number(grant.area)*10):0;
   const grantReadings=data.readings.filter((item)=>item.grantId===grantId),average=grantReadings.reduce((sum,item)=>sum+item.consumption,0)/Math.max(grantReadings.length,1),divergent=water!==""&&hours!==""&&((average>0&&(consumption>average*1.25||consumption<average*.5))||(consumption>0&&operating===0)||(operating>0&&consumption===0));
-  const cultures=["Soja","Milho","Feijão","Algodão","Café","Cana-de-açúcar","Pastagem","Hortaliças","Outra"];
+  const cultures=["Soja","Milho","Feijão","Sorgo","Aveia","Trigo","Café","Batata","Outra"];
   const steps=["Preparar","Hidrômetro","Horímetro","Confirmar"];
   useEffect(()=>{setWater("");setHours("");setPhotos({water:null,hour:null});setScans({water:null,hour:null});setError("")},[grantId]);
   const captureLocation=()=>{if(!navigator.geolocation)return setError("Este celular não oferece localização.");setLocating(true);navigator.geolocation.getCurrentPosition((position)=>{setLocation({lat:position.coords.latitude,lng:position.coords.longitude,accuracy:position.coords.accuracy,capturedAt:new Date().toISOString()});setLocating(false);setError("")},()=>{setLocating(false);setError("Autorize a localização do celular e tente novamente.")},{enableHighAccuracy:true,timeout:15000,maximumAge:0})};

@@ -766,3 +766,8 @@ body{background:var(--bg);color:var(--ink)}
   .operator-review{grid-template-columns:1fr}.operator-review article{padding:15px}.operator-review strong{font-size:25px}
   .operator-summary span{font-size:10px}.operator-summary strong{font-size:13px}
 }
+
+/* Culturas compactas para operação em campo */
+.operator-prepare{gap:12px}.operator-question>strong{margin-bottom:7px}
+.culture-options{gap:6px}.culture-options button{min-height:38px;padding:5px 7px;font-size:10px;border-radius:7px}
+@media(max-width:720px){.operator-prepare{gap:10px}.culture-options{grid-template-columns:repeat(3,1fr);gap:5px}.culture-options button{min-height:40px;padding:4px;font-size:11px}.culture-options button svg{width:13px}}
