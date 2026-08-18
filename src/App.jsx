@@ -66,8 +66,8 @@ export default function App() {
     const { data: listener } = supabase.auth.onAuthStateChange((event, nextSession) => { setSession(nextSession); if (event === "PASSWORD_RECOVERY") setPasswordRecovery(true); });
     return () => listener.subscription.unsubscribe();
   }, []);
-  useEffect(() => { try { const current = JSON.parse(localStorage.getItem("agua-rural-v7")); if (current?.grants) return setData(current); const previous = JSON.parse(localStorage.getItem("agua-rural-v6")); if (previous?.grants) setData({ ...previous, readings: [] }); } catch {} }, []);
-  useEffect(() => { try { localStorage.setItem("agua-rural-v7", JSON.stringify(data)); } catch { setToast("O armazenamento de fotos está cheio. Tente uma imagem menor."); } }, [data]);
+  useEffect(() => { try { const current = JSON.parse(localStorage.getItem("agua-rural-v8")); if (current?.grants) return setData(current); const previous = JSON.parse(localStorage.getItem("agua-rural-v7")); if (previous?.grants) setData({ ...previous, readings: [] }); } catch {} }, []);
+  useEffect(() => { try { localStorage.setItem("agua-rural-v8", JSON.stringify(data)); } catch { setToast("O armazenamento de fotos está cheio. Tente uma imagem menor."); } }, [data]);
   const go = (id) => { setPage(id); setMenu(false); };
   if (session === undefined) return <div className="auth-loading"><img src="/agua-rural-logo.png" alt="Água Rural" /><span>Preparando acesso seguro...</span></div>;
   if (passwordRecovery && session) return <UpdatePasswordScreen onComplete={() => setPasswordRecovery(false)} />;
