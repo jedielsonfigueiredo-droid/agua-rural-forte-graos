@@ -669,3 +669,21 @@ html::-webkit-scrollbar-thumb:hover{background:#6f9289}
   .grant-card .card-last{padding:8px 10px;margin-bottom:8px}.grant-card .card-last span{font-size:9px}.grant-card .card-last strong{font-size:11px;margin-top:2px}
   .grant-card .outline{height:42px;font-size:12px;border-width:1px}
 }
+
+/* Documento como ação secundária da outorga */
+.grant-card .grant-document{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;border:0;border-top:1px solid #e0e7e6;border-bottom:1px solid #e0e7e6;border-radius:0;background:transparent!important;padding:9px 0;margin:0 0 10px}
+.grant-card .document-heading{gap:7px}.grant-card .document-heading>svg{width:15px;color:#7a8d89}
+.grant-card .document-heading span{display:none}.grant-card .document-heading strong{font-size:10px;font-weight:600;color:#687b77;margin:0}.grant-card .grant-document.attached .document-heading strong{color:#294f49}
+.grant-card .document-heading small{font-size:8px;color:#899894;margin-top:2px}
+.grant-card .document-actions{margin:0;gap:5px}
+.grant-card .document-actions a,.grant-card .document-actions label{height:29px;flex:0 0 auto;border:1px solid #d3dcda;background:#fff;color:#5d716d;border-radius:6px;padding:0 8px;font-size:8px;font-weight:700;box-shadow:none}
+.grant-card .document-actions a{color:#23665b;border-color:#bdd4ce}
+.grant-card .document-actions svg{width:12px}
+.grant-card .document-limit{display:none}
+
+@media(max-width:720px){
+  .grant-card .grant-document{grid-template-columns:minmax(0,1fr) auto;padding:9px 0;margin-bottom:9px}
+  .grant-card .document-heading strong{font-size:11px}.grant-card .document-heading small{font-size:9px}
+  .grant-card .document-actions{display:flex}.grant-card .document-actions a,.grant-card .document-actions label{height:34px;font-size:9px;padding:0 7px}
+  .grant-card .document-actions label{font-size:0}.grant-card .document-actions label svg{width:15px;margin:0}
+}
