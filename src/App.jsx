@@ -9,19 +9,13 @@ const today = () => dateKey();
 const shiftDate = (base, days) => { const date = new Date(`${base}T12:00:00-03:00`); date.setDate(date.getDate() + days); return dateKey(date); };
 const photoData = (file) => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onerror = reject; reader.onload = () => { const image = new Image(); image.onerror = reject; image.onload = () => { const scale = Math.min(1, 900 / Math.max(image.width, image.height)), canvas = document.createElement("canvas"); canvas.width = Math.round(image.width * scale); canvas.height = Math.round(image.height * scale); canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height); resolve(canvas.toDataURL("image/jpeg", .65)); }; image.src = reader.result; }; reader.readAsDataURL(file); });
 const documentData = (file) => new Promise((resolve, reject) => { if (file.size > 2 * 1024 * 1024) return reject(new Error("too-large")); const reader = new FileReader(); reader.onerror = reject; reader.onload = () => resolve({ name:file.name, type:file.type, size:file.size, data:reader.result, uploadedAt:new Date().toISOString() }); reader.readAsDataURL(file); });
+const meterCrops = (source) => new Promise((resolve,reject)=>{const image=new Image();image.onerror=reject;image.onload=()=>{const regions=[[.27,.27,.50,.16],[.22,.22,.60,.26]],variants=[];for(const [x,y,w,h] of regions){const canvas=document.createElement("canvas"),scale=4;canvas.width=Math.round(image.width*w*scale);canvas.height=Math.round(image.height*h*scale);const context=canvas.getContext("2d");context.imageSmoothingEnabled=true;context.drawImage(image,image.width*x,image.height*y,image.width*w,image.height*h,0,0,canvas.width,canvas.height);const pixels=context.getImageData(0,0,canvas.width,canvas.height);for(let index=0;index<pixels.data.length;index+=4){const gray=pixels.data[index]*.299+pixels.data[index+1]*.587+pixels.data[index+2]*.114;const contrast=gray>165?255:gray<85?0:Math.round((gray-85)*3.18);pixels.data[index]=pixels.data[index+1]=pixels.data[index+2]=contrast}context.putImageData(pixels,0,0);variants.push(canvas.toDataURL("image/png"))}resolve(variants)};image.src=source});
 const readMeterPhoto = async (image, previous = 0) => {
-  const { recognize } = await import("tesseract.js");
-  const result = await recognize(image, "eng", { logger: () => {} });
-  const raw = result.data.text || "";
-  const candidates = [...raw.matchAll(/\d[\d\s.,]{1,14}\d|\d+/g)].map(({ 0: token }) => {
-    const compact = token.replace(/\s/g, "");
-    const decimal = compact.includes(",") && !compact.includes(".") ? compact.replace(",", ".") : compact.replace(/,/g, "");
-    return Number(decimal);
-  }).filter(Number.isFinite);
-  const valid = candidates.filter((number) => number >= Number(previous));
-  const value = (valid.length ? valid : candidates).sort((a, b) => Math.abs(a - Number(previous)) - Math.abs(b - Number(previous)))[0];
-  if (!Number.isFinite(value)) throw new Error("no-reading");
-  return { value: String(value), confidence: Math.round(result.data.confidence || 0) };
+  const module=await import("tesseract.js"),api=module.default||module,worker=await api.createWorker("eng",1,{logger:()=>{}}),variants=await meterCrops(image),results=[];
+  try{await worker.setParameters({tessedit_char_whitelist:"0123456789",tessedit_pageseg_mode:api.PSM.SINGLE_LINE,preserve_interword_spaces:"0"});for(const variant of variants){const result=await worker.recognize(variant),digits=(result.data.text||"").replace(/\D/g,"");if(digits.length>=5&&digits.length<=8)results.push({digits,number:Number(digits),confidence:Math.round(result.data.confidence||0)})}}finally{await worker.terminate()}
+  const valid=results.filter((item)=>item.number>=Number(previous)),selected=(valid.length?valid:results).sort((a,b)=>(b.confidence-a.confidence)||Math.abs(a.number-Number(previous))-Math.abs(b.number-Number(previous)))[0];
+  if(!selected)throw new Error("no-reading");
+  return {value:String(selected.number),display:selected.digits,confidence:selected.confidence};
 };
 const brDate = (value) => new Date(`${value}T12:00:00`).toLocaleDateString("pt-BR");
 const fmt = (value, digits = 1) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(Number(value) || 0);
