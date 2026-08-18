@@ -707,3 +707,34 @@ body{background:var(--bg);color:var(--ink)}
 .grant-card .document-actions a,.grant-card .document-actions label{border-color:#aababc;color:#34565a;background:#fff}
 .mobile-nav{border-color:#9eb2b8;box-shadow:0 -5px 18px rgba(6,39,53,.12)}.mobile-nav button{color:#4b626b}.mobile-nav button.active{color:#056c72}
 @media(max-width:720px){.content{background:var(--bg)}.grant-card,.metric,.panel,.history-record{border-color:#aabdc1;box-shadow:0 4px 12px rgba(7,42,55,.08)}}
+
+/* Outorgas: hierarquia visual forte e organizada */
+.cards-grid{align-items:start}
+.grant-card{position:relative;overflow:hidden;background:#fff;border:1px solid #91aab1!important;border-top:4px solid #08758a!important;box-shadow:0 8px 20px rgba(5,43,59,.11)!important}
+.grant-card:nth-child(even){border-top-color:#2f7d46!important}
+.grant-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#08758a}
+.grant-card:nth-child(even):before{background:#2f7d46}
+.grant-card header{padding-bottom:8px;border-bottom:1px solid #d0dcdf}
+.grant-card .equip{background:#d6edf0;color:#006d86;border:1px solid #b6d9de}
+.grant-card .status.ativa{background:#ccebd8;color:#075e32;border:1px solid #9dceb1}
+.grant-card h3{color:#002f46;font-weight:800;letter-spacing:-.2px}
+.grant-card>p{color:#365963;font-weight:600}
+.grant-card dl{padding:12px;background:#edf3f4;border:1px solid #c1d0d4;border-radius:9px}
+.grant-card dl>div{min-width:0}.grant-card dt{color:#3e5b64;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.grant-card dd{color:#082f40;font-weight:800;overflow-wrap:anywhere}
+.grant-card .grant-document{background:#f7f9f9!important;border:1px solid #c7d3d5;border-radius:8px;padding:8px 9px}
+.grant-card .document-heading strong{color:#38545b;font-weight:700}
+.grant-card .document-actions label{background:#e8eeee;color:#274b53;border-color:#aebfc3}
+.grant-card .document-actions label:hover{background:#dce6e6;border-color:#829da3}
+.grant-card .card-last{background:#dcebee;border:1px solid #aec9cf}
+.grant-card .card-last span{color:#365962;font-weight:700}.grant-card .card-last strong{color:#00384d;font-weight:800}
+.grant-card>.outline{background:#087582;color:#fff;border-color:#05616d;font-weight:800;box-shadow:0 3px 8px rgba(6,92,102,.18)}
+.grant-card>.outline:hover{background:#055f6a;color:#fff}
+.grant-card>.outline:disabled{background:#d8e2e2;color:#496165;border-color:#aebfc1}
+
+@media(max-width:720px){
+  .grant-card{border-top-width:4px!important;padding:14px}
+  .grant-card dl{padding:11px;gap:11px 14px}
+  .grant-card .grant-document{padding:8px}
+  .grant-card>.outline{height:46px;font-size:13px}
+}
