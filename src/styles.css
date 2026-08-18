@@ -687,3 +687,23 @@ html::-webkit-scrollbar-thumb:hover{background:#6f9289}
   .grant-card .document-actions{display:flex}.grant-card .document-actions a,.grant-card .document-actions label{height:34px;font-size:9px;padding:0 7px}
   .grant-card .document-actions label{font-size:0}.grant-card .document-actions label svg{width:15px;margin:0}
 }
+
+/* Contraste profissional: elimina o aspecto lavado */
+:root{--ink:#0a2635;--muted:#435b64;--line:#b9c9cd;--bg:#edf2f3;--navy:#062f49;--blue2:#076f88;--green:#176b3b;--shadow:0 5px 16px rgba(7,43,57,.09)}
+body{background:var(--bg);color:var(--ink)}
+.topbar,.panel,.metric,.grant-card,.history-record,.filters,.history-filters,.photo-annex,.evidence-header{background:#fff;border-color:var(--line)}
+.panel,.metric,.grant-card,.history-record{box-shadow:var(--shadow)}
+.page-head h2,.welcome h2,.grant-card h3,.panel-title h3,.history-date>strong{color:#062f49}
+.page-head p,.welcome p,.grant-card>p,.panel-title p,.metric>span,.metric>small,.history-date>span,.history-values span,.history-values small{color:#425b65}
+.primary{background:#087683;color:#fff;border:1px solid #05616d;box-shadow:0 4px 10px rgba(5,77,86,.2)}
+.primary:hover{background:#056571}
+.outline{background:#fff;color:#083b50;border-color:#829da5}
+.filters label,.history-filters label,.field{color:#294852}
+.filters select,.filters input,.history-filters select,.history-filters input,.field input,.field select,.field textarea{background:#fff;color:#092f42;border-color:#9fb3b8}
+.status.ativa,.status.concluida{background:#d6eee0;color:#0d643b}.status.pendente{background:#ffe8bd;color:#815000}.status.divergente,.status.vencida{background:#f6d8d8;color:#8c2929}
+.equip,.metric-icon.cyan{background:#d9edf1;color:#056f88}.metric-icon.green{background:#dceee3;color:#12683a}.metric-icon.amber{background:#ffebc8;color:#966000}
+.card-last{background:#eaf0f1;border-color:#b9c8cc}.card-last span{color:#49616a}.card-last strong{color:#0b3040}
+.grant-card .grant-document{border-color:#c0ccce}.grant-card .document-heading>svg{color:#526a6d}.grant-card .document-heading strong{color:#3d555a}.grant-card .document-heading small{color:#526a6d}
+.grant-card .document-actions a,.grant-card .document-actions label{border-color:#aababc;color:#34565a;background:#fff}
+.mobile-nav{border-color:#9eb2b8;box-shadow:0 -5px 18px rgba(6,39,53,.12)}.mobile-nav button{color:#4b626b}.mobile-nav button.active{color:#056c72}
+@media(max-width:720px){.content{background:var(--bg)}.grant-card,.metric,.panel,.history-record{border-color:#aabdc1;box-shadow:0 4px 12px rgba(7,42,55,.08)}}
