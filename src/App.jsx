@@ -1,13 +1,14 @@
 ﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Activity, AlertTriangle, BarChart3, Building2, Camera, CheckCircle2, ChevronRight, Clock3, Droplets, FileDown, FileText, Gauge, Home, LogOut, MapPin, Menu, Plus, Search, ShieldCheck, TrendingUp, X } from "lucide-react";
+import { Activity, AlertTriangle, BarChart3, Building2, Camera, CheckCircle2, ChevronRight, Clock3, Droplets, Eye, FileDown, FileText, Gauge, Home, LogOut, MapPin, Menu, Paperclip, Plus, Search, ShieldCheck, TrendingUp, Upload, X } from "lucide-react";
 import { supabase, supabaseConfigured } from "./lib/supabase";
 
 const dateKey = (date = new Date()) => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 const today = () => dateKey();
 const shiftDate = (base, days) => { const date = new Date(`${base}T12:00:00-03:00`); date.setDate(date.getDate() + days); return dateKey(date); };
 const photoData = (file) => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onerror = reject; reader.onload = () => { const image = new Image(); image.onerror = reject; image.onload = () => { const scale = Math.min(1, 900 / Math.max(image.width, image.height)), canvas = document.createElement("canvas"); canvas.width = Math.round(image.width * scale); canvas.height = Math.round(image.height * scale); canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height); resolve(canvas.toDataURL("image/jpeg", .65)); }; image.src = reader.result; }; reader.readAsDataURL(file); });
+const documentData = (file) => new Promise((resolve, reject) => { if (file.size > 2 * 1024 * 1024) return reject(new Error("too-large")); const reader = new FileReader(); reader.onerror = reject; reader.onload = () => resolve({ name:file.name, type:file.type, size:file.size, data:reader.result, uploadedAt:new Date().toISOString() }); reader.readAsDataURL(file); });
 const readMeterPhoto = async (image, previous = 0) => {
   const { recognize } = await import("tesseract.js");
   const result = await recognize(image, "eng", { logger: () => {} });
@@ -80,6 +81,7 @@ export default function App() {
   const logout = async () => { await supabase.auth.signOut(); setMenu(false); };
   const saveReading = (reading) => { setData((d) => ({ ...d, readings: [reading, ...d.readings] })); setModal(null); setToast(reading.status === "divergente" ? "Leitura salva e enviada para conferência." : "Leitura salva com sucesso."); setPage("inicio"); };
   const saveGrant = (grant, property) => { setData((d) => ({ properties: property ? [...d.properties, property] : d.properties, grants: [...d.grants, grant], readings: d.readings })); setModal(null); setToast("Outorga cadastrada com sucesso."); };
+  const saveGrantDocument = (grantId, document) => { setData((d) => ({ ...d, grants:d.grants.map((grant) => grant.id === grantId ? { ...grant, document } : grant) })); setToast("Documento da outorga anexado com sucesso."); };
   return <div className="app-shell">
     <aside className={menu ? "sidebar open" : "sidebar"}>
       <div className="brand"><img src="/agua-rural-logo.png" alt="Água Rural" /><span className="brand-tagline">Controle e gestão da água no campo</span><button onClick={() => setMenu(false)} aria-label="Fechar menu"><X /></button></div>
@@ -92,7 +94,7 @@ export default function App() {
       <div className="content">
         {page === "inicio" && <Dashboard data={data} onReading={(id) => setModal({ type: "reading", id })} onPage={go} />}
         {page === "leituras" && <Readings data={data} onReading={(id) => setModal({ type: "reading", id })} />}
-        {page === "outorgas" && <Grants data={data} onNew={() => setModal({ type: "grant" })} onReading={(id) => setModal({ type: "reading", id })} />}
+        {page === "outorgas" && <GrantsPanel data={data} onNew={() => setModal({ type: "grant" })} onReading={(id) => setModal({ type: "reading", id })} onDocument={saveGrantDocument} onError={setToast} />}
         {page === "relatorios" && <Reports data={data} userName={userName} />}
       </div>
     </main>
@@ -209,6 +211,11 @@ function Readings({ data, onReading }) {
 function PhotoProof({label,src,onOpen}){return src&&typeof src==="string"?<button onClick={()=>onOpen(src)}><img src={src} alt=""/><span>{label}</span></button>:<span className="no-photo"><Camera/> Sem foto</span>}
 
 function Grants({ data, onNew, onReading }) { return <div className="stack"><section className="page-head"><div><span className="eyebrow">CADASTROS</span><h2>Outorgas</h2><p>Equipamentos, limites e documentos em um só lugar.</p></div><button className="primary" onClick={onNew}><Plus /> Nova outorga</button></section><div className="cards-grid">{data.grants.map((g) => { const p=data.properties.find((x)=>x.id===g.propertyId), r=lastReading(data,g.id), doneToday=data.readings.some(x=>x.grantId===g.id&&x.date===today()); return <article className="grant-card" key={g.id}><header><div className="equip"><Droplets/></div><Status value={g.status}/></header><h3>{g.name}</h3><p>{p?.name}</p><dl><div><dt>Número</dt><dd>{g.number}</dd></div><div><dt>Fonte</dt><dd>{g.source}</dd></div><div><dt>Vazão autorizada</dt><dd>{g.flow} m³/h</dd></div><div><dt>Validade</dt><dd>{brDate(g.validity)}</dd></div></dl><div className="card-last"><span>Última leitura</span><strong>{r ? `${fmt(r.waterNow,0)} m³ · ${brDate(r.date)}` : "Sem leituras"}</strong></div><button className="outline full" disabled={doneToday} onClick={() => !doneToday&&onReading(g.id)}>{doneToday?<><CheckCircle2/> Leitura realizada hoje</>:"Registrar leitura"}</button></article>})}</div></div>; }
+
+function GrantsPanel({data,onNew,onReading,onDocument,onError}) {
+  const attach=async(grantId,event)=>{const file=event.target.files?.[0];if(!file)return;try{const document=await documentData(file);onDocument(grantId,document)}catch(error){onError(error.message==="too-large"?"O documento deve ter no máximo 2 MB.":"Não foi possível anexar o documento.")}event.target.value=""};
+  return <div className="stack"><section className="page-head"><div><span className="eyebrow">CADASTROS</span><h2>Outorgas</h2><p>Equipamentos, limites e documentos de cada área.</p></div><button className="primary" onClick={onNew}><Plus/> Nova outorga</button></section><div className="cards-grid">{data.grants.map((grant)=>{const property=data.properties.find((item)=>item.id===grant.propertyId),reading=lastReading(data,grant.id),doneToday=data.readings.some((item)=>item.grantId===grant.id&&item.date===today());return <article className="grant-card" key={grant.id}><header><div className="equip"><Droplets/></div><Status value={grant.status}/></header><h3>{grant.name}</h3><p>{property?.name}</p><dl><div><dt>Número</dt><dd>{grant.number}</dd></div><div><dt>Fonte</dt><dd>{grant.source}</dd></div><div><dt>Vazão autorizada</dt><dd>{grant.flow} m³/h</dd></div><div><dt>Validade</dt><dd>{brDate(grant.validity)}</dd></div></dl><section className={grant.document?"grant-document attached":"grant-document"}><div className="document-heading"><Paperclip/><div><span>DOCUMENTO DA OUTORGA</span><strong>{grant.document?.name||"Nenhum arquivo anexado"}</strong>{grant.document&&<small>Anexado em {new Date(grant.document.uploadedAt).toLocaleDateString("pt-BR")}</small>}</div></div><div className="document-actions">{grant.document&&<a href={grant.document.data} target="_blank" rel="noreferrer" aria-label={`Visualizar ${grant.document.name}`}><Eye/> Visualizar</a>}<label><Upload/> {grant.document?"Substituir":"Anexar PDF ou foto"}<input type="file" accept="application/pdf,image/*" onChange={(event)=>attach(grant.id,event)}/></label></div><small className="document-limit">PDF, JPG ou PNG · máximo 2 MB</small></section><div className="card-last"><span>Última leitura</span><strong>{reading?`${fmt(reading.waterNow,0)} m³ · ${brDate(reading.date)}`:"Sem leituras"}</strong></div><button className="outline full" disabled={doneToday} onClick={()=>!doneToday&&onReading(grant.id)}>{doneToday?<><CheckCircle2/> Leitura realizada hoje</>:"Registrar leitura"}</button></article>})}</div></div>;
+}
 
 function Reports(props) {
   const [step,setStep]=useState(0);
