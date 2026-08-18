@@ -643,3 +643,29 @@ html::-webkit-scrollbar-thumb:hover{background:#6f9289}
 .document-actions svg{width:15px}.document-actions input{display:none}
 .document-limit{display:block;font-size:8px;color:#71857e;margin-top:8px}
 @media(max-width:720px){.grant-document{padding:15px}.document-heading span{font-size:10px}.document-heading strong{font-size:14px}.document-heading small{font-size:11px}.document-actions{display:grid;grid-template-columns:1fr 1.4fr}.document-actions a,.document-actions label{height:46px;font-size:12px}.document-limit{font-size:10px}}
+
+/* Outorgas compactas */
+@media(min-width:721px){
+  .cards-grid{grid-template-columns:repeat(3,minmax(280px,1fr));gap:13px}
+  .grant-card{padding:15px;border-width:1px;border-radius:11px}
+  .grant-card .equip{width:38px;height:38px}.grant-card .equip svg{width:18px}
+  .grant-card h3{font-size:16px;margin:10px 0 3px}.grant-card>p{font-size:11px}
+  .grant-card dl{gap:10px 14px;margin:14px 0}.grant-card dt{font-size:9px}.grant-card dd{font-size:12px;margin-top:3px}
+  .grant-card .grant-document{padding:10px;margin-bottom:10px}.grant-card .document-heading>svg{width:18px}.grant-card .document-heading span{font-size:8px}.grant-card .document-heading strong{font-size:10px;margin-top:2px}.grant-card .document-heading small{font-size:8px}
+  .grant-card .document-actions{margin-top:8px}.grant-card .document-actions a,.grant-card .document-actions label{height:32px;font-size:9px}
+  .grant-card .document-limit{font-size:7px;margin-top:5px}
+  .grant-card .card-last{padding:8px 10px;margin-bottom:9px}.grant-card .card-last span{font-size:8px}.grant-card .card-last strong{font-size:10px;margin-top:3px}
+  .grant-card .outline{height:38px;font-size:11px;border-width:1px}
+}
+
+@media(max-width:720px){
+  .cards-grid{gap:10px}
+  .grant-card{padding:13px;border-width:1px;border-radius:11px}
+  .grant-card header{align-items:center}.grant-card .equip{width:36px;height:36px}.grant-card .equip svg{width:18px}
+  .grant-card h3{font-size:17px;margin:9px 0 2px}.grant-card>p{font-size:12px}
+  .grant-card dl{grid-template-columns:1fr 1fr;gap:9px 12px;margin:13px 0}.grant-card dt{font-size:9px}.grant-card dd{font-size:12px;margin-top:2px}
+  .grant-card .grant-document{padding:10px;margin-bottom:9px;border-width:1px}.grant-card .document-heading{gap:7px}.grant-card .document-heading>svg{width:18px}.grant-card .document-heading span{font-size:8px}.grant-card .document-heading strong{font-size:11px;margin-top:2px}.grant-card .document-heading small{font-size:9px}
+  .grant-card .document-actions{display:flex;margin-top:8px;gap:6px}.grant-card .document-actions a,.grant-card .document-actions label{height:40px;font-size:10px;padding:0 8px}.grant-card .document-limit{font-size:8px;margin-top:5px}
+  .grant-card .card-last{padding:8px 10px;margin-bottom:8px}.grant-card .card-last span{font-size:9px}.grant-card .card-last strong{font-size:11px;margin-top:2px}
+  .grant-card .outline{height:42px;font-size:12px;border-width:1px}
+}
